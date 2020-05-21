@@ -1,19 +1,31 @@
 package ru.ifmo.collections;
 
-/**
- * Design a class which contains integers and returns first unique integer (in order of addition).
- * FirstUniqueTest can be used as an example.
- */
+import java.util.Map;
+import java.util.Queue;
+import java.util.ArrayDeque;
+import java.util.HashMap;
+
 public class FirstUnique {
+    private final Map<Integer, Integer> map;
+    private final Queue<Integer> queue;
+
     public FirstUnique(int[] numbers) {
-        // TODO implement
+        queue = new ArrayDeque<>();
+        map = new HashMap<>();
+        for (int number : numbers) {
+            add(number);
+        }
     }
 
     public int showFirstUnique() {
-        throw new UnsupportedOperationException(); // TODO implement
+        while (!queue.isEmpty() && map.get(queue.element()) > 1) {
+            queue.remove();
+        }
+        return (queue.isEmpty() ? -1 : queue.element());
     }
 
     public void add(int value) {
-        throw new UnsupportedOperationException(); // TODO implement
+        queue.add(value);
+        map.merge(value, 1, Integer::sum);
     }
 }
