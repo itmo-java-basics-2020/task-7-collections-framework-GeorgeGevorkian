@@ -1,18 +1,27 @@
 package ru.ifmo.collections;
 
-/**
- * Design a class to find the kth largest element in a stream. k is from 1 to numbers.length.
- * Note that it is the kth largest element in the sorted order, not the kth distinct element.
- *
- * Constructor accepts an integer k and an integer array numbers, which contains initial elements from the stream.
- * For each call to the method KthLargest.add(), return the element representing the kth largest element in the stream.
- */
+import java.util.PriorityQueue;
+import java.util.Queue;
+
 public class KthLargest {
+    private final Queue<Integer> min_heap;
+
     public KthLargest(int k, int[] numbers) {
-        // TODO implement
+        min_heap = new PriorityQueue<>();
+        for (int number : numbers) {
+            min_heap.add(number);
+        }
+
+        while (min_heap.size() != k) {
+            min_heap.remove();
+        }
     }
 
     public int add(int val) {
-        throw new UnsupportedOperationException(); // TODO implement
+        if (val > min_heap.element()) {
+            min_heap.remove();
+            min_heap.add(val);
+        }
+        return min_heap.element();
     }
 }
